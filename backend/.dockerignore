@@ -1,0 +1,8 @@
+vendor
+main
+server
+bin
+.git
+.env
+.vscode
+Dockerfile
