@@ -64,7 +64,30 @@ Wujudkan impian (Nikah, Gadget, Rumah) dengan perencanaan matang.
 
 ---
 
-## 🎮 7. Gamifikasi (Level & Badges)
+## 📆 6. Kalender Keuangan (Financial Calendar) ✨ *Baru!*
+Lihat jadwal keuangan Anda dalam tampilan kalender visual.
+- **Akses Menu**: Klik "..." → "Kalender Keuangan"
+- **Navigasi**: Gunakan panah ◀ ▶ untuk pindah bulan
+- **Event yang Ditampilkan**:
+    - 🟢 Transaksi rutin (pemasukan)
+    - 🔴 Transaksi rutin (pengeluaran)
+    - 🟠 Jatuh tempo utang/piutang
+- **Detail Event**: Klik tanggal untuk melihat detail di panel samping
+
+---
+
+## 💱 7. Multi-Mata Uang (Multiple Currency) ✨ *Baru!*
+Catat transaksi dalam mata uang asing (USD, euros, SGD, dll) dengan konversi otomatis.
+- **Dukungan Mata Uang**: IDR, USD, EUR, SGD, MYR, JPY, dan lainnya.
+- **Cara Pakai**:
+    1. Saat tambah transaksi, pilih mata uang di dropdown sebelah nominal.
+    2. Aplikasi akan otomatis menampilkan estimasi konversi ke Rupiah (IDR).
+    3. Simpan transaksi (nilai tersimpan dalam IDR untuk laporan).
+- **Kurs**: Mengambil kurs terkini dari internet (jika online) atau menggunakan kurs standar (jika offline).
+
+---
+
+## 🎮 8. Gamifikasi (Level & Badges)
 Keuangan tidak harus membosankan!
 - **Level**: Dapatkan XP setiap kali mencatat transaksi. Naikkan level Anda dari *Novice* hingga *Sultan*.
 - **Badges (Lencana)**: Buka lencana khusus dengan menjaga kebiasaan baik, contoh:

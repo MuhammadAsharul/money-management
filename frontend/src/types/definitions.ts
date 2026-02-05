@@ -66,7 +66,10 @@ export interface Transaction {
     user_id: number;
     category_id: number;
     wallet_id: number;
-    amount: number;
+    amount: number;  // Amount in IDR (converted)
+    original_amount?: number;  // Amount in original currency
+    currency?: string;  // Currency code (IDR, USD, etc)
+    exchange_rate?: number;  // Rate used for conversion
     type: 'income' | 'expense';
     description: string;
     date: string;
@@ -75,6 +78,20 @@ export interface Transaction {
     category?: Category;
     wallet?: Wallet;
     created_at: string;
+}
+
+export interface CurrencyInfo {
+    code: string;
+    name: string;
+    rate: number;  // Rate to IDR
+    symbol: string;
+}
+
+export interface CurrencyResponse {
+    currencies: CurrencyInfo[];
+    base: string;
+    source: 'api' | 'offline';
+    updated_at: string;
 }
 
 export interface Budget {
@@ -249,4 +266,21 @@ export interface Debt {
 export interface DebtSummary {
     total_payable: number;
     total_receivable: number;
+}
+
+export interface CalendarEvent {
+    id: number;
+    date: string; // YYYY-MM-DD
+    title: string;
+    amount: number;
+    type: 'income' | 'expense' | 'debt_payable' | 'debt_receivable';
+    source: 'recurring' | 'debt';
+    source_id: number;
+    category_icon?: string;
+}
+
+export interface CalendarResponse {
+    events: CalendarEvent[];
+    month: number;
+    year: number;
 }

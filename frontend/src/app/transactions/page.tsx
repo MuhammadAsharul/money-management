@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
-import { transactionsApi, categoriesApi, walletsApi, uploadApi } from '@/lib/api';
-import { Transaction, Category, Wallet } from '@/types/definitions';
+import { transactionsApi, categoriesApi, walletsApi, uploadApi, currencyApi } from '@/lib/api';
+import { Transaction, Category, Wallet, CurrencyInfo } from '@/types/definitions';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { toast } from 'sonner';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -60,12 +60,14 @@ export default function TransactionsPage() {
         category_id: 0,
         wallet_id: 0,
         amount: 0,
+        currency: 'IDR',
         date: formatDate(new Date()),
         description: '',
         type: 'expense' as 'income' | 'expense',
         notes: '',
         proof_url: '',
     });
+    const [currencies, setCurrencies] = useState<CurrencyInfo[]>([]);
     const [proofFile, setProofFile] = useState<File | null>(null);
     const [proofPreview, setProofPreview] = useState<string>('');
 
@@ -93,13 +95,19 @@ export default function TransactionsPage() {
                 category_id: filterCategory || undefined
             };
 
-            const [txResponse, cats, walletList] = await Promise.all([
+            const [txResponse, cats, walletList, currencyData] = await Promise.all([
                 transactionsApi.list(page, limit, filters),
                 categoriesApi.list(),
                 walletsApi.list(),
+                currencyApi.getRates().catch(() => ({ currencies: [] })),
             ]);
             setTransactions(txResponse.transactions || []);
-            setTotal(txResponse.total); setCategories(cats || []); setWallets(walletList || []);
+            setTotal(txResponse.total);
+            setCategories(cats || []);
+            setWallets(walletList || []);
+            if (currencyData.currencies?.length) {
+                setCurrencies(currencyData.currencies);
+            }
         } catch (error) {
             console.error('Failed to load data:', error);
         } finally {
@@ -119,10 +127,17 @@ export default function TransactionsPage() {
                 proofUrl = uploadResult.url;
             }
 
+            // Convert to IDR if different currency
+            const currencyRate = currencies.find(c => c.code === formData.currency)?.rate || 1;
+            const amountInIDR = formData.currency !== 'IDR'
+                ? formData.amount * currencyRate
+                : formData.amount;
+
             const payload = {
                 ...formData,
                 proof_url: proofUrl,
-                amount: Number(formData.amount),
+                amount: Number(amountInIDR),  // Store in IDR
+                currency: formData.currency,
                 date: new Date(formData.date).toISOString()
             };
 
@@ -171,6 +186,7 @@ export default function TransactionsPage() {
             category_id: tx.category_id,
             wallet_id: tx.wallet_id || 0,
             amount: Number(tx.amount),
+            currency: tx.currency || 'IDR',
             type: tx.type,
             description: tx.description,
             date: new Date(tx.date).toISOString().split('T')[0],
@@ -188,6 +204,7 @@ export default function TransactionsPage() {
             category_id: 0,
             wallet_id: 0,
             amount: 0,
+            currency: 'IDR',
             type: 'expense',
             description: '',
             date: new Date().toISOString().split('T')[0],
@@ -573,12 +590,43 @@ export default function TransactionsPage() {
 
                             <div>
                                 <label className="label">{t('common.amount')}</label>
-                                <CurrencyInput
-                                    value={formData.amount}
-                                    onValueChange={(val) => setFormData({ ...formData, amount: val })}
-                                    className="input"
-                                    placeholder="Rp 0"
-                                />
+                                <div className="flex gap-2">
+                                    <div className="flex-1">
+                                        <CurrencyInput
+                                            value={formData.amount}
+                                            onValueChange={(val) => setFormData({ ...formData, amount: val })}
+                                            className="input"
+                                            placeholder="0"
+                                        />
+                                    </div>
+                                    <select
+                                        className="input w-24"
+                                        value={formData.currency}
+                                        onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
+                                    >
+                                        {currencies.length > 0 ? (
+                                            currencies.map((c) => (
+                                                <option key={c.code} value={c.code}>
+                                                    {c.code}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <>
+                                                <option value="IDR">IDR</option>
+                                                <option value="USD">USD</option>
+                                                <option value="EUR">EUR</option>
+                                                <option value="SGD">SGD</option>
+                                            </>
+                                        )}
+                                    </select>
+                                </div>
+                                {formData.currency !== 'IDR' && formData.amount > 0 && (
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        ≈ {formatCurrency(
+                                            formData.amount * (currencies.find(c => c.code === formData.currency)?.rate || 1)
+                                        )}
+                                    </p>
+                                )}
                             </div>
 
                             <div>

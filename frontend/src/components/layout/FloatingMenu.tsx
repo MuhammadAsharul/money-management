@@ -16,7 +16,8 @@ import {
     Tags,
     Trophy,
     FileText,
-    Handshake
+    Handshake,
+    CalendarDays
 } from 'lucide-react';
 import { useLanguage } from '@/lib/language-context';
 import { useState } from 'react';
@@ -42,6 +43,7 @@ export default function FloatingMenu() {
         { href: '/achievements', label: 'Achievements', icon: Trophy },
         { href: '/recurring', label: t('sidebar.recurring'), icon: Repeat },
         { href: '/debts', label: t('debts.title'), icon: Handshake },
+        { href: '/calendar', label: t('calendar.title'), icon: CalendarDays },
         { href: '/reports', label: 'Laporan', icon: FileText },
     ];
 

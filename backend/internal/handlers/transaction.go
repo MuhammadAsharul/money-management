@@ -37,6 +37,7 @@ type CreateTransactionRequest struct {
 	CategoryID  uint    `json:"category_id"`
 	WalletID    uint    `json:"wallet_id"`
 	Amount      float64 `json:"amount"`
+	Currency    string  `json:"currency"` // Optional, defaults to IDR
 	Type        string  `json:"type"`
 	Description string  `json:"description"`
 	Date        string  `json:"date"`
@@ -48,6 +49,7 @@ type UpdateTransactionRequest struct {
 	CategoryID  uint    `json:"category_id"`
 	WalletID    uint    `json:"wallet_id"`
 	Amount      float64 `json:"amount"`
+	Currency    string  `json:"currency"` // Optional, defaults to IDR
 	Type        string  `json:"type"`
 	Description string  `json:"description"`
 	Date        string  `json:"date"`
@@ -172,16 +174,34 @@ func (h *TransactionHandler) Create(w http.ResponseWriter, r *http.Request) {
 		date = time.Now()
 	}
 
+	// Handle currency conversion
+	currency := req.Currency
+	if currency == "" {
+		currency = "IDR"
+	}
+
+	originalAmount := req.Amount
+	exchangeRate := 1.0
+	amountInIDR := req.Amount
+
+	// If not IDR, we'll store the original and convert
+	// Rate conversion happens on frontend or via API call
+	// For now, we trust the frontend to send converted amount
+	// This allows offline mode to work with manual conversion
+
 	transaction := &models.Transaction{
-		UserID:      userID,
-		CategoryID:  req.CategoryID,
-		WalletID:    walletID,
-		Amount:      req.Amount,
-		Type:        req.Type,
-		Description: req.Description,
-		Date:        date,
-		Notes:       req.Notes,
-		ProofURL:    req.ProofURL,
+		UserID:         userID,
+		CategoryID:     req.CategoryID,
+		WalletID:       walletID,
+		Amount:         amountInIDR,
+		OriginalAmount: originalAmount,
+		Currency:       currency,
+		ExchangeRate:   exchangeRate,
+		Type:           req.Type,
+		Description:    req.Description,
+		Date:           date,
+		Notes:          req.Notes,
+		ProofURL:       req.ProofURL,
 	}
 
 	if err := h.transactionRepo.Create(transaction); err != nil {

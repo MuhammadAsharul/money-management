@@ -284,5 +284,18 @@ export const debtApi = {
     },
 };
 
-export default api;
+export const calendarApi = {
+    getEvents: async (month: number, year: number) => {
+        const { data } = await api.get('/calendar/events', { params: { month, year } });
+        return data;
+    },
+};
 
+export const currencyApi = {
+    getRates: async () => {
+        const { data } = await api.get('/currencies');
+        return data;
+    },
+};
+
+export default api;

@@ -55,6 +55,8 @@ func main() {
 	reportHandler := handlers.NewReportHandler(transactionRepo, categoryRepo)
 	uploadHandler := handlers.NewUploadHandler()
 	debtHandler := handlers.NewDebtHandler(db)
+	calendarHandler := handlers.NewCalendarHandler(db)
+	currencyHandler := handlers.NewCurrencyHandler(db)
 
 	// Setup router
 	r := chi.NewRouter()
@@ -159,6 +161,12 @@ func main() {
 			r.Post("/debts", debtHandler.Create)
 			r.Put("/debts/{id}", debtHandler.Update)
 			r.Delete("/debts/{id}", debtHandler.Delete)
+
+			// Calendar
+			r.Get("/calendar/events", calendarHandler.GetEvents)
+
+			// Currencies
+			r.Get("/currencies", currencyHandler.GetRates)
 		})
 	})
 

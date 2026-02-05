@@ -273,6 +273,13 @@ export const translations = {
             total_payable: 'Total Utang Saya',
             total_receivable: 'Total Piutang Saya',
             no_debts: 'Belum ada catatan utang/piutang',
+        },
+        calendar: {
+            title: 'Kalender Keuangan',
+            select_date: 'Pilih tanggal untuk melihat event',
+            no_events: 'Tidak ada event di tanggal ini',
+            recurring: 'Transaksi Rutin',
+            debt_due: 'Jatuh Tempo Utang',
         }
     },
     en: {
@@ -547,6 +554,13 @@ export const translations = {
             total_payable: 'Total My Debt',
             total_receivable: 'Total Others Debt',
             no_debts: 'No debt records yet',
+        },
+        calendar: {
+            title: 'Financial Calendar',
+            select_date: 'Select a date to see events',
+            no_events: 'No events on this date',
+            recurring: 'Recurring Transaction',
+            debt_due: 'Debt Due Date',
         }
     }
 
