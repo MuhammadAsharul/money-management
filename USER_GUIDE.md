@@ -1,87 +1,83 @@
 # 📘 Panduan Lengkap Pengguna MoneyTracker
 
-Selamat datang di **MoneyTracker**! Aplikasi manajemen keuangan pribadi yang dirancang untuk membantu Anda mencapai kebebasan finansial. Panduan ini mencakup seluruh fitur mulai dari pencatatan harian hingga perencanaan masa depan.
+Selamat datang di **MoneyTracker**! Aplikasi manajemen keuangan personal yang membantu Anda mencatat, merencanakan, dan memantau kesehatan finansial Anda.
 
 ---
 
-## 1. 📊 Dashboard (Pusat Kontrol)
-Halaman pertama yang Anda lihat, memberikan gambaran besar keuangan Anda.
+## 🚀 1. Memulai (Getting Started)
 
-- **Kartu Ringkasan**:
-    - **Pemasukan & Pengeluaran**: Total uang masuk dan keluar periode ini.
-    - **Sisa Saldo**: Uang yang tersisa.
-    - **Indikator Tren**: Panah hijau/merah kecil menunjukkan apakah keuangan Anda membaik dibanding bulan lalu (Month-over-Month).
-- **Periode Waktu**: Ganti tampilan data (Harian, Mingguan, Bulanan, Tahunan) menggunakan tombol di pojok kanan atas.
-- **Grafik Analisis**:
-    - *Pie Chart*: Lihat ke mana saja uang Anda pergi (Persentase per kategori).
-    - *Bar Chart*: Bandingkan pemasukan vs pengeluaran setiap harinya.
-- **⚠️ Peringatan Budget**: Jika pengeluaran kategori mendekati batas (90%+), kotak merah akan muncul di dashboard.
+### Login & Register
+- **Akses Aplikasi**: Buka browser ke `http://localhost:3000`.
+- **Register**: Jika belum punya akun, klik "Register here" di bawah tombol login. Isi Nama, Email, dan Password.
+- **Login**: Masukkan username/email dan password.
+- **Bahasa**: Klik tombol **"ID" / "EN"** di pojok kanan atas untuk mengganti bahasa aplikasi.
 
 ---
 
-## 2. 📝 Transaksi (Pencatatan)
-Menu utama untuk mencatat arus kas.
-
-- **Tambah Transaksi Baru**:
-    1. Klik tombol **`+ Tambah`**.
-    2. Masukkan nominal, pilih **Tipe** (Masuk/Keluar).
-    3. Pilih **Kategori** (Makan, Gaji, Transport, dll).
-    4. Pilih **Dompet** sumber dana.
-    5. Tambahkan catatan opsional & tanggal.
-- **Filter & Cari**:
-    - Gunakan **Search Bar** untuk mencari transaksi berdasarkan catatan/nama.
-    - Gunakan **Filter** untuk menyortir berdasarkan Tanggal, Kategori, atau Tipe.
-- **Export Data**: Butuh data mentah? Klik tombol **Export** untuk mengunduh laporan dalam format **JSON** (untuk backup) atau format lain jika tersedia.
+## 📊 2. Dashboard (Pusat Kontrol)
+Halaman utama ini memberikan ringkasan cepat kondisi keuangan Anda:
+- **Financial Health Score**: Skor 0-100 yang menilai kesehatan finansial Anda berdasarkan konsistensi mencatat, rasio tabungan, dan kontrol pengeluaran.
+- **Ringkasan Saldo**: Total Pemasukan, Pengeluaran, dan Sisa Saldo bulan ini.
+- **Peringatan (Alerts)**: Muncul jika pengeluaran melebihi pemasukan atau budget kategori hampir habis.
+- **Tren**: Grafik garis menunjukkan arus kas harian Anda.
 
 ---
 
-## 3. 🎯 Goals (Target Menabung)
-Fitur unggulan untuk mewujudkan impian (Nikah, Beli Rumah, Gadget, dll).
-
-- **Buat Target Baru**: Klik `+ Tambah Target`, isi nama, target dana, dan deadline.
-- **Cara Menabung**:
-    - Klik tombol `(+)` di kartu target.
-    - Masukkan nominal yang ingin ditabung ke pos tersebut.
-    - Uang ini akan terpisah secara virtual dari dompet utama Anda.
-- **Riwayat Tabungan**: Klik ikon **Jam (🕒)** di kartu target untuk melihat kapan saja Anda menabung.
-- **Shopping List (Rencana Belanja)** 🛒:
-    - Ideal untuk target belanja banyak barang (misal: Persiapan Nikah).
-    - Klik ikon **Keranjang (🛒)**.
-    - **Tambah Item**: Masukkan nama barang dan estimasi harga.
-    - **Ceklis**: Jika barang sudah dibeli, klik ceklis dan masukkan **Harga Asli**.
-    - Aplikasi akan menghitung total estimasi vs realisasi pengeluaran.
-- **Joint Savings (Nabung Bersama)** 👥:
-    - Klik ikon **Orang (+👤)**.
-    - Masukkan email pasangan/teman yang sudah terdaftar.
-    - Kalian bisa menabung bareng di satu goal yang sama!
+## 📝 3. Transaksi (Transactions)
+Menu utama untuk mencatat keluar-masuk uang.
+- **Tambah Transaksi**: Klik tombol **+ Tambah**.
+    - Pilih **Pemasukan** atau **Pengeluaran**.
+    - Isi **Jumlah** dan pilih **Kategori** (misal: Makan, Gaji).
+    - Pilih **Dompet** sumber dana.
+- **Transfer**: Pindahkan uang antar dompet (misal: dari Bank ke Tunai) tanpa dianggap pengeluaran.
+- **Filter**: Cari transaksi berdasarkan rentang tanggal atau kategori tertentu.
 
 ---
 
-## 4. 🔄 Transaksi Berulang (Recurring)
-Jangan capek mencatat manual tagihan bulanan!
-
-- **Gunakan untuk**: Langganan Netflix, Bayar Kos, Gaji Bulanan, Listrik, dll.
-- **Cara Pakai**:
-    - Masuk menu **Recurring**.
-    - Tambah transaksi baru, set frekuensi (Harian/Mingguan/Bulanan/Tahunan).
-- **Otomatis**: Sistem akan otomatis mencatat transaksi ini ke database sesuai jadwalnya.
-- **Ringkasan**: Di bagian atas halaman ini, Anda bisa melihat total beban biaya rutin bulanan Anda.
-
----
-
-## 5. 💰 Budgeting (Anggaran)
-Kendalikan pengeluaran agar tidak boncos.
-
-- **Pasang Anggaran**: Tentukan batas maksimal untuk kategori tertentu (misal: "Makan & Minum" max 3 Juta/bulan).
-- **Monitor**: Progress bar akan berubah warna (Hijau -> Kuning -> Merah) seiring pengeluaran Anda bertambah.
+## 🤝 4. Utang Piutang (Debt Tracking) ✨ *Baru!*
+Jangan sampai lupa bayar utang atau menagih teman!
+- **Akses Menu**: Klik "Debts" atau "Utang Piutang" di menu bawah.
+- **Tab Utang Saya (Payable)**: Catatan uang yang Anda pinjam dari orang lain.
+- **Tab Piutang (Receivable)**: Catatan uang yang orang lain pinjam dari Anda.
+- **Fitur**:
+    - Catat nama orang, jumlah, dan jatuh tempo.
+    - Tandai **Lunas** jika sudah dibayar.
+    - Hapus catatan jika sudah tidak diperlukan.
 
 ---
 
-## 6. ⚙️ Pengaturan & Lainnya
-- **Profil**: Ganti nama dan foto profil.
-- **Keamanan**: Ubah password akun secara berkala.
-- **Tampilan**: Dukungan **Dark Mode** 🌙 untuk kenyamanan mata di malam hari.
-- **Backup Data**: Unduh seluruh data keuangan Anda dalam satu file JSON aman melalui menu Settings/Sidebar.
+## 📄 5. Laporan & Ekspor (Reports)
+Analisis mendalam keuangan Anda.
+- **Akses Menu**: Klik ikon Dokumen/Laporan.
+- **Laporan Bulanan**: Lihat breakdown pengeluaran dalam Pie Chart.
+- **Download PDF**: Klik tombol **"Export PDF"** untuk mengunduh laporan resmi bulan tersebut.
+- **Upload Bukti**: Simpan foto struk/bukti transfer sebagai arsip.
 
 ---
-*MoneyTracker - Cerdas Mengelola, Bahagia Menikmati.* 🚀
+
+## 🎯 6. Goals (Target Menabung)
+Wujudkan impian (Nikah, Gadget, Rumah) dengan perencanaan matang.
+- **Buat Target**: Tentukan nama barang dan harga target.
+- **Nabung**: Klik `(+)` untuk menyisihkan uang ke pos ini.
+- **Shopping List**: Pecah target besar menjadi item-item kecil (misal: Target Nikah -> Katering, Gedung, Baju).
+- **Kolaborasi**: Undang teman/pasangan via email untuk menabung di target yang sama.
+
+---
+
+## 🎮 7. Gamifikasi (Level & Badges)
+Keuangan tidak harus membosankan!
+- **Level**: Dapatkan XP setiap kali mencatat transaksi. Naikkan level Anda dari *Novice* hingga *Sultan*.
+- **Badges (Lencana)**: Buka lencana khusus dengan menjaga kebiasaan baik, contoh:
+    - 🏅 **Streak Master**: Catat transaksi 7 hari berturut-turut.
+    - �️ **No Jajan Week**: Tidak ada pengeluaran kategori "Wants" selama seminggu.
+    - 💰 **Saver**: Menabung 20% dari pendapatan.
+
+---
+
+## ⚙️ 8. Pengaturan (Settings)
+- **Tema**: Ganti **Dark Mode / Light Mode** sesuka hati.
+- **Backup Data**: Download file JSON berisi semua data Anda untuk cadangan pribadi.
+- **Profil**: Ubah foto profil dan password.
+
+---
+*Happy Tracking!* 🚀
