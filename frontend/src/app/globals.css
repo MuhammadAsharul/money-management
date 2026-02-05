@@ -1,0 +1,320 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 255 255 255;
+  /* White */
+  --foreground: 45 49 66;
+  /* Jet Black */
+  --card: 255 255 255;
+  --card-hover: 248 250 252;
+  --border: 226 232 240;
+  --input: 226 232 240;
+  --primary: 239 131 84;
+  /* Coral Glow */
+  --primary-hover: 219 111 64;
+  /* Darker Coral */
+  --secondary: 241 245 249;
+  --accent: 16 185 129;
+  --danger: 239 68 68;
+  --warning: 245 158 11;
+  --muted: 191 192 192;
+  /* Silver */
+  --radius: 12px;
+}
+
+.dark {
+  --background: 45 49 66;
+  /* Jet Black #2D3142 */
+  --foreground: 255 255 255;
+  /* White */
+  --card: 31 41 55;
+  /* gray-800 #1f2937 */
+  --card-hover: 55 65 81;
+  /* gray-700 #374151 */
+  --border: 55 65 81;
+  /* gray-700 */
+  --input: 55 65 81;
+  --secondary: 55 65 81;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--muted));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--foreground) / 0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .dark .glass {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hover-lift {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, #f97316, #eab308);
+  }
+}
+
+@layer components {
+
+  /* Card styles */
+  .card {
+    background: rgb(var(--card));
+    border: 1px solid rgb(var(--border));
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+  }
+
+  /* Button styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: calc(var(--radius) - 4px);
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .btn-primary {
+    background: rgb(var(--primary));
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: rgb(var(--primary-hover));
+  }
+
+  .btn-secondary {
+    background: rgb(var(--secondary));
+    color: rgb(var(--foreground));
+  }
+
+  .btn-secondary:hover {
+    background: rgb(var(--border));
+  }
+
+  .btn-danger {
+    background: rgb(var(--danger));
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: rgb(220 38 38);
+  }
+
+  /* Input styles */
+  .input {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    border: 1px solid rgb(var(--border));
+    border-radius: calc(var(--radius) - 4px);
+    background: rgb(var(--card));
+    color: rgb(var(--foreground));
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: rgb(var(--primary));
+    box-shadow: 0 0 0 3px rgb(var(--primary) / 0.1);
+  }
+
+  .input::placeholder {
+    color: rgb(var(--muted));
+  }
+
+  /* Label */
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgb(var(--foreground));
+    margin-bottom: 0.5rem;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .badge-income {
+    background: rgb(var(--accent) / 0.1);
+    color: rgb(var(--accent));
+  }
+
+  .badge-expense {
+    background: rgb(var(--danger) / 0.1);
+    color: rgb(var(--danger));
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgb(var(--secondary));
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* Modal backdrop */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .modal-content {
+    background: rgb(var(--card));
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    max-width: 480px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease;
+  }
+
+  /* Stat card */
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: rgb(var(--muted));
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(var(--foreground));
+  }
+
+  .stat-value.positive {
+    color: rgb(var(--accent));
+  }
+
+  .stat-value.negative {
+    color: rgb(var(--danger));
+  }
+}
