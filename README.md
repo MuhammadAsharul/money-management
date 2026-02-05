@@ -61,3 +61,22 @@ cd frontend
 npm install
 npm run dev
 ```
+
+## Troubleshooting 🔧
+
+### Error: "authentication required - email must be verified"
+Jika muncul error saat `docker-compose up --build`:
+```
+Error authentication required - email must be verified before using account
+```
+
+**Solusi:**
+1. Login ke Docker Hub:
+   ```bash
+   docker login
+   ```
+2. Jika belum punya akun, daftar gratis di [hub.docker.com](https://hub.docker.com) dan **verifikasi email**.
+3. Setelah login, jalankan ulang:
+   ```bash
+   docker-compose up --build
+   ```
