@@ -1,6 +1,6 @@
 # Money Management - Financial Tracker
 
-Aplikasi full-stack untuk tracking keuangan personal dengan Next.js dan Golang.
+Aplication full-stack untuk tracking keuangan personal dengan Next.js dan Golang.
 
 ## Tech Stack
 
@@ -9,76 +9,55 @@ Aplikasi full-stack untuk tracking keuangan personal dengan Next.js dan Golang.
 - **Database**: PostgreSQL
 - **Auth**: JWT + OAuth Google
 
-## Prerequisites
+## Quick Start (Docker) 🚀
 
-- Node.js 18+
-- Go 1.21+
-- PostgreSQL
+Cara termudah untuk menjalankan aplikasi ini adalah menggunakan Docker.
 
-## Setup
-
-### 1. Database
-
-Buat database PostgreSQL:
-```sql
-CREATE DATABASE money_management;
+### 1. Clone Repository
+```bash
+git clone https://github.com/MuhammadAsharul/money-management.git
+cd money-management
 ```
 
-### 2. Backend
+### 2. Jalankan Aplikasi
+```bash
+docker-compose up --build
+```
+Tunggu hingga proses build selesai dan container berjalan.
 
+### 3. Akses Aplikasi
+- **Frontend**: Buka [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:8080/api/health](http://localhost:8080/api/health)
+- **Database Manager (Adminer)**: [http://localhost:8081](http://localhost:8081)
+  - System: PostgreSQL
+  - Server: `db`
+  - Username: `postgres`
+  - Password: `password`
+  - Database: `money_management`
+
+## Fitur Utama
+
+- ✅ **Dashboard**: Ringkasan saldo, pemasukan, pengeluaran & grafik tren.
+- ✅ **Transaksi**: Catat pemasukan & pengeluaran dengan kategori custom.
+- ✅ **Budgeting**: Atur batas pengeluaran bulanan agar tidak boncos.
+- ✅ **Debt Tracking**: Catat utang & piutang teman/kerabat.
+- ✅ **Laporan Bulanan**: Export laporan keuangan ke PDF.
+- ✅ **Multi-bahasa**: Mendukung Bahasa Indonesia & Inggris.
+- ✅ **Dark Mode**: Tampilan nyaman di mata.
+
+## Pengembangan Manual (Tanpa Docker)
+
+Jika ingin menjalankan service secara manual (untuk development):
+
+### Backend
 ```bash
 cd backend
-
-# Set environment variables (optional, ada default values)
-export DATABASE_URL="postgres://postgres:password@localhost:5432/money_management?sslmode=disable"
-export JWT_SECRET="your-secret-key"
-export SERVER_PORT="8080"
-
-# Run
 go run cmd/main.go
 ```
 
-Backend akan berjalan di `http://localhost:8080`
-
-### 3. Frontend
-
+### Frontend
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Run development server
 npm run dev
 ```
-
-Frontend akan berjalan di `http://localhost:3000`
-
-## Features
-
-- ✅ User Registration & Login
-- ✅ Dashboard dengan ringkasan keuangan
-- ✅ CRUD Transaksi (pemasukan/pengeluaran)
-- ✅ CRUD Kategori dengan icon & color picker
-- ✅ Budget management per kategori
-- ✅ Visualisasi dengan pie chart
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register |
-| POST | `/api/auth/login` | Login |
-| GET | `/api/transactions` | List transaksi |
-| POST | `/api/transactions` | Buat transaksi |
-| PUT | `/api/transactions/:id` | Update transaksi |
-| DELETE | `/api/transactions/:id` | Hapus transaksi |
-| GET | `/api/categories` | List kategori |
-| POST | `/api/categories` | Buat kategori |
-| PUT | `/api/categories/:id` | Update kategori |
-| DELETE | `/api/categories/:id` | Hapus kategori |
-| GET | `/api/budgets` | List budget |
-| POST | `/api/budgets` | Buat budget |
-| PUT | `/api/budgets/:id` | Update budget |
-| DELETE | `/api/budgets/:id` | Hapus budget |
-| GET | `/api/dashboard/summary` | Dashboard summary |

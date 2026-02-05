@@ -59,7 +59,7 @@ services:
     environment:
       # If you are making requests from the browser, localhost:8080 is correct.
       # If you are making requests from Server Components, you might need http://backend:8080
-      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_API_URL=http://localhost:8080/api
     depends_on:
       backend:
         condition: service_healthy
