@@ -94,6 +94,22 @@ export interface CurrencyResponse {
     updated_at: string;
 }
 
+export interface NetWorthHistory {
+    month: string;
+    date: string;
+    balance: number;
+    income: number;
+    expense: number;
+}
+
+export interface NetWorthResponse {
+    total_assets: number;
+    total_liabilities: number;
+    net_worth: number;
+    currency: string;
+    history: NetWorthHistory[];
+}
+
 export interface Budget {
     id: number;
     user_id: number;

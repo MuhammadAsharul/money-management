@@ -57,6 +57,7 @@ func main() {
 	debtHandler := handlers.NewDebtHandler(db)
 	calendarHandler := handlers.NewCalendarHandler(db)
 	currencyHandler := handlers.NewCurrencyHandler(db)
+	analyticsHandler := handlers.NewAnalyticsHandler(db, walletRepo, transactionRepo)
 
 	// Setup router
 	r := chi.NewRouter()
@@ -167,6 +168,9 @@ func main() {
 
 			// Currencies
 			r.Get("/currencies", currencyHandler.GetRates)
+
+			// Analytics
+			r.Get("/analytics/net-worth", analyticsHandler.GetNetWorth)
 		})
 	})
 

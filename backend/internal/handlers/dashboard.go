@@ -204,9 +204,19 @@ func (h *DashboardHandler) GetSummary(w http.ResponseWriter, r *http.Request) {
 	trends, _ := h.transactionRepo.GetDailyTrends(userID, start, end)
 
 	// Convert transactions to interface{}
-	var recentTx []interface{}
+	recentTx := make([]interface{}, 0)
 	for _, tx := range transactions {
 		recentTx = append(recentTx, tx)
+	}
+
+	if spendingList == nil {
+		spendingList = []CategorySpending{}
+	}
+	if budgetProgress == nil {
+		budgetProgress = []BudgetProgress{}
+	}
+	if trends == nil {
+		trends = []repository.DailyTrend{}
 	}
 
 	dashboardSummary := DashboardSummary{

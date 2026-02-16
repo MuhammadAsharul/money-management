@@ -98,7 +98,7 @@ func GetFinancialScore(db *gorm.DB) http.HandlerFunc {
 		finalScore := int((float64(consistencyScore) * 0.3) + (float64(savingsScore) * 0.4) + (float64(spendingScore) * 0.3))
 
 		// Generate Tips (Return codes for frontend translation)
-		var tips []string
+		tips := make([]string, 0)
 		if consistencyScore < 60 {
 			tips = append(tips, "TIP_CONSISTENCY_LOW")
 		}

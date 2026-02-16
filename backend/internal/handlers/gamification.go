@@ -69,13 +69,18 @@ func (h *GamificationHandler) GetStatus(w http.ResponseWriter, r *http.Request) 
 	// but we can also check here if we want "login streak" or similar.
 	// For now we just return the stored values.
 
+	badges := user.Badges
+	if badges == nil {
+		badges = []models.Badge{}
+	}
+
 	resp := GamificationStatusResponse{
 		Level:         user.Level,
 		XP:            user.XP,
 		NextLevelXP:   calculateNextLevelXP(user.Level),
 		CurrentStreak: user.CurrentStreak,
 		LongestStreak: user.LongestStreak,
-		Badges:        user.Badges,
+		Badges:        badges,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

@@ -33,6 +33,7 @@ func InitDB(cfg *config.Config) error {
 		&models.GoalItem{},
 		&models.Badge{},
 		&models.UserBadge{},
+		&models.Debt{},
 	)
 	if err != nil {
 		return err

@@ -58,6 +58,10 @@ func (h *BudgetHandler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if budgets == nil {
+		budgets = []models.Budget{}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(budgets)
 }

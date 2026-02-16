@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthResponse, Category, Wallet, Transaction, Budget, DashboardSummary, TransactionListResponse, Goal, User, RecurringTransaction, GoalItem, FinancialScoreResponse, GamificationStatus, MonthlyReport, Debt } from '@/types/definitions';
+import { AuthResponse, Category, Wallet, Transaction, Budget, DashboardSummary, TransactionListResponse, Goal, User, RecurringTransaction, GoalItem, FinancialScoreResponse, GamificationStatus, MonthlyReport, Debt, CurrencyResponse, NetWorthResponse } from '@/types/definitions';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 console.log('🔌 API Base URL:', API_BASE_URL); // Debugging line
@@ -236,6 +236,10 @@ export const analyticsApi = {
         const { data } = await api.get('/analytics/score');
         return data;
     },
+    getNetWorth: async (): Promise<NetWorthResponse> => {
+        const { data } = await api.get('/analytics/net-worth');
+        return data;
+    },
 };
 
 export const gamificationApi = {
@@ -297,5 +301,7 @@ export const currencyApi = {
         return data;
     },
 };
+
+
 
 export default api;

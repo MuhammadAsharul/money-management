@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import FinancialHealth from '@/components/dashboard/FinancialHealth';
+import NetWorthCard from '@/components/dashboard/NetWorthCard';
 import GamificationCard from '@/components/gamification/GamificationCard';
 import { dashboardApi, analyticsApi, gamificationApi } from '@/lib/api';
 import { DashboardSummary, FinancialScoreResponse, GamificationStatus } from '@/types/definitions';
@@ -108,6 +109,11 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
+                {/* Net Worth Tracker */}
+                <div className="mb-6">
+                    <NetWorthCard />
+                </div>
+
                 {/* Gamification Card */}
                 <div className="mb-6">
                     <GamificationCard status={gamificationStatus} loading={loading} />
@@ -142,6 +148,8 @@ export default function DashboardPage() {
                         </Alert>
                     </div>
                 )}
+
+
 
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

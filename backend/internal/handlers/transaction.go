@@ -111,6 +111,10 @@ func (h *TransactionHandler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if transactions == nil {
+		transactions = []models.Transaction{}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(TransactionListResponse{
 		Transactions: transactions,

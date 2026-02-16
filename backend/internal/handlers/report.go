@@ -119,7 +119,7 @@ func (h *ReportHandler) GetMonthlyReport(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Build category breakdown
-	var categoryBreakdown []CategoryBreakdown
+	categoryBreakdown := make([]CategoryBreakdown, 0)
 	for catID, amount := range categoryAmounts {
 		percentage := 0.0
 		if totalExpense > 0 {
@@ -135,7 +135,7 @@ func (h *ReportHandler) GetMonthlyReport(w http.ResponseWriter, r *http.Request)
 	}
 
 	// Build daily trend
-	var dailyTrend []DailyData
+	dailyTrend := make([]DailyData, 0)
 	for d := startDate; !d.After(endDate) && !d.After(now); d = d.AddDate(0, 0, 1) {
 		dateKey := d.Format("2006-01-02")
 		dailyTrend = append(dailyTrend, DailyData{
