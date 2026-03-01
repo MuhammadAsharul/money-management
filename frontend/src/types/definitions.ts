@@ -272,7 +272,10 @@ export interface Debt {
     type: 'payable' | 'receivable';
     person_name: string;
     amount: number;
+    remaining_amount?: number;
+    installment_amount?: number;
     description: string;
+    borrowed_date?: string;
     due_date?: string;
     status: 'unpaid' | 'paid';
     created_at?: string;

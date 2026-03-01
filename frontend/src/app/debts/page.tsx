@@ -11,6 +11,8 @@ import { toast } from 'sonner';
 import { Debt } from '@/types/definitions';
 import { Button } from '@/components/ui/Button';
 import DebtModal from '@/components/debts/DebtModal';
+import PayInstallmentModal from '@/components/debts/PayInstallmentModal';
+import ConfirmModal from '@/components/ui/ConfirmModal';
 import FloatingMenu from '@/components/layout/FloatingMenu';
 
 export default function DebtsPage() {
@@ -19,6 +21,9 @@ export default function DebtsPage() {
     const [activeTab, setActiveTab] = useState<'payable' | 'receivable'>('payable');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDebt, setSelectedDebt] = useState<Debt | null>(null);
+    const [isPayModalOpen, setIsPayModalOpen] = useState(false);
+    const [selectedPayDebt, setSelectedPayDebt] = useState<Debt | null>(null);
+    const [deleteId, setDeleteId] = useState<number | null>(null);
 
     // Fetch Debts
     const { data: debts, isLoading } = useQuery({
@@ -46,8 +51,13 @@ export default function DebtsPage() {
     });
 
     const handleDelete = (id: number) => {
-        if (confirm(t('debts.delete_confirm'))) {
-            deleteMutation.mutate(id);
+        setDeleteId(id);
+    };
+
+    const confirmDelete = () => {
+        if (deleteId !== null) {
+            deleteMutation.mutate(deleteId);
+            setDeleteId(null);
         }
     };
 
@@ -66,8 +76,14 @@ export default function DebtsPage() {
         setIsModalOpen(true);
     };
 
+    const handlePay = (e: React.MouseEvent, debt: Debt) => {
+        e.stopPropagation();
+        setSelectedPayDebt(debt);
+        setIsPayModalOpen(true);
+    };
+
     // Calculate Totals
-    const totalAmount = debts?.reduce((acc, curr) => acc + (curr.status === 'unpaid' ? curr.amount : 0), 0) || 0;
+    const totalAmount = debts?.reduce((acc, curr) => acc + (curr.status === 'unpaid' ? (curr.remaining_amount ?? curr.amount) : 0), 0) || 0;
 
     return (
         <div className="p-4 md:p-6 pb-32 max-w-7xl mx-auto space-y-6">
@@ -144,19 +160,45 @@ export default function DebtsPage() {
                                     </span>
                                 </div>
                                 <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">{debt.description}</p>
+                                {debt.borrowed_date && (
+                                    <p className="text-xs text-blue-500 flex items-center gap-1 mb-1">
+                                        📅 {t('debts.borrowed_date') || 'Tanggal Pinjam'}: {new Date(debt.borrowed_date).toLocaleDateString()}
+                                    </p>
+                                )}
                                 {debt.due_date && (
-                                    <p className="text-xs text-orange-500 flex items-center gap-1">
+                                    <p className="text-xs text-orange-500 flex items-center gap-1 mb-1">
                                         📅 {t('debts.due_date')}: {new Date(debt.due_date).toLocaleDateString()}
+                                    </p>
+                                )}
+                                {debt.installment_amount && debt.installment_amount > 0 && (
+                                    <p className="text-xs text-green-600 flex items-center gap-1">
+                                        💰 {t('debts.installment_amount') || 'Cicilan'}: {formatCurrency(debt.installment_amount)}
                                     </p>
                                 )}
                             </div>
 
                             <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end" onClick={(e) => e.stopPropagation()}>
-                                <span className={`font-bold text-lg ${debt.type === 'payable' ? 'text-red-500' : 'text-green-500'}`}>
-                                    {formatCurrency(debt.amount)}
-                                </span>
+                                <div className="flex flex-col items-end">
+                                    <span className={`font-bold text-lg ${debt.type === 'payable' ? 'text-red-500' : 'text-green-500'}`}>
+                                        {formatCurrency(debt.remaining_amount ?? debt.amount)}
+                                    </span>
+                                    {(debt.remaining_amount ?? debt.amount) !== debt.amount && (
+                                        <span className="text-xs text-gray-400">Total: {formatCurrency(debt.amount)}</span>
+                                    )}
+                                </div>
 
                                 <div className="flex items-center gap-2">
+                                    {debt.status === 'unpaid' && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={(e) => handlePay(e, debt)}
+                                            className="text-blue-600 hover:text-blue-700 border-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 dark:border-blue-800"
+                                            title="Bayar Cicilan"
+                                        >
+                                            Bayar
+                                        </Button>
+                                    )}
                                     <Button
                                         variant="outline"
                                         size="sm"
@@ -185,6 +227,21 @@ export default function DebtsPage() {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 debtToEdit={selectedDebt}
+            />
+            <PayInstallmentModal
+                isOpen={isPayModalOpen}
+                onClose={() => setIsPayModalOpen(false)}
+                debt={selectedPayDebt}
+            />
+            <ConfirmModal
+                isOpen={deleteId !== null}
+                onConfirm={confirmDelete}
+                onCancel={() => setDeleteId(null)}
+                title={t('common.confirm_delete') || 'Konfirmasi Hapus'}
+                message={t('debts.delete_confirm') || 'Yakin ingin menghapus catatan ini?'}
+                confirmText={t('common.delete') || 'Ya, Hapus'}
+                cancelText={t('common.cancel') || 'Batal'}
+                variant="danger"
             />
             <FloatingMenu />
         </div>

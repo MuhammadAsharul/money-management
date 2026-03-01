@@ -9,6 +9,7 @@ import { X } from 'lucide-react';
 import { Debt } from '@/types/definitions';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/Button';
+import CurrencyInput from '@/components/ui/CurrencyInput';
 
 interface DebtModalProps {
     isOpen: boolean;
@@ -20,7 +21,9 @@ type FormData = {
     type: 'payable' | 'receivable';
     person_name: string;
     amount: number;
+    installment_amount?: number;
     description: string;
+    borrowed_date?: string;
     due_date?: string;
     status: 'unpaid' | 'paid';
 };
@@ -28,21 +31,29 @@ type FormData = {
 export default function DebtModal({ isOpen, onClose, debtToEdit }: DebtModalProps) {
     const { t } = useLanguage();
     const queryClient = useQueryClient();
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
+    const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<FormData>({
         defaultValues: {
             type: 'payable',
             status: 'unpaid',
             amount: 0,
+            installment_amount: 0,
         }
     });
+
+    const amountValue = watch('amount');
+    const installmentAmountValue = watch('installment_amount');
 
     useEffect(() => {
         if (debtToEdit) {
             setValue('type', debtToEdit.type);
             setValue('person_name', debtToEdit.person_name);
             setValue('amount', debtToEdit.amount);
+            setValue('installment_amount', debtToEdit.installment_amount || 0);
             setValue('description', debtToEdit.description);
             setValue('status', debtToEdit.status);
+            if (debtToEdit.borrowed_date) {
+                setValue('borrowed_date', new Date(debtToEdit.borrowed_date).toISOString().split('T')[0]);
+            }
             if (debtToEdit.due_date) {
                 setValue('due_date', new Date(debtToEdit.due_date).toISOString().split('T')[0]);
             }
@@ -51,8 +62,10 @@ export default function DebtModal({ isOpen, onClose, debtToEdit }: DebtModalProp
                 type: 'payable',
                 status: 'unpaid',
                 amount: 0,
+                installment_amount: 0,
                 person_name: '',
                 description: '',
+                borrowed_date: undefined,
                 due_date: undefined
             });
         }
@@ -80,7 +93,8 @@ export default function DebtModal({ isOpen, onClose, debtToEdit }: DebtModalProp
     const onSubmit = (data: FormData) => {
         mutation.mutate({
             ...data,
-            amount: Number(data.amount)
+            amount: Number(data.amount),
+            installment_amount: Number(data.installment_amount || 0)
         });
     };
 
@@ -105,8 +119,8 @@ export default function DebtModal({ isOpen, onClose, debtToEdit }: DebtModalProp
                             type="button"
                             onClick={() => setValue('type', 'payable')}
                             className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${(debtToEdit?.type || 'payable') === 'payable' // Watch logic needed here really, but simplified
-                                    ? 'bg-white dark:bg-gray-600 shadow-sm text-red-500' // Using color state here is tricky without watch
-                                    : 'text-gray-500'
+                                ? 'bg-white dark:bg-gray-600 shadow-sm text-red-500' // Using color state here is tricky without watch
+                                : 'text-gray-500'
                                 }`}
                         >
                             {t('debts.payable')}
@@ -130,21 +144,40 @@ export default function DebtModal({ isOpen, onClose, debtToEdit }: DebtModalProp
 
                     <div>
                         <label className="block text-sm font-medium mb-1">{t('debts.amount')}</label>
-                        <input
-                            type="number"
-                            {...register('amount', { required: true, min: 1 })}
+                        <CurrencyInput
+                            value={amountValue || ''}
+                            onValueChange={(val) => setValue('amount', val, { shouldValidate: true })}
                             className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
                         />
                         {errors.amount && <span className="text-red-500 text-xs">Required</span>}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1">{t('debts.due_date')}</label>
-                        <input
-                            type="date"
-                            {...register('due_date')}
+                        <label className="block text-sm font-medium mb-1">{t('debts.installment_amount') || 'Cicilan (Opsional)'}</label>
+                        <CurrencyInput
+                            value={installmentAmountValue || ''}
+                            onValueChange={(val) => setValue('installment_amount', val)}
                             className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
                         />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium mb-1">{t('debts.borrowed_date') || 'Tanggal Pinjam'}</label>
+                            <input
+                                type="date"
+                                {...register('borrowed_date')}
+                                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">{t('debts.due_date')}</label>
+                            <input
+                                type="date"
+                                {...register('due_date')}
+                                className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            />
+                        </div>
                     </div>
 
                     <div>

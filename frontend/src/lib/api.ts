@@ -286,6 +286,10 @@ export const debtApi = {
     delete: async (id: number) => {
         await api.delete(`/debts/${id}`);
     },
+    payInstallment: async (id: number, data: { amount: number, wallet_id: number, category_id: number, date?: string }) => {
+        const response = await api.post<Debt>(`/debts/${id}/pay`, data);
+        return response.data;
+    },
 };
 
 export const calendarApi = {

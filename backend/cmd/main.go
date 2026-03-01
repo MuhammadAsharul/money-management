@@ -162,6 +162,7 @@ func main() {
 			r.Post("/debts", debtHandler.Create)
 			r.Put("/debts/{id}", debtHandler.Update)
 			r.Delete("/debts/{id}", debtHandler.Delete)
+			r.Post("/debts/{id}/pay", debtHandler.PayInstallment)
 
 			// Calendar
 			r.Get("/calendar/events", calendarHandler.GetEvents)
